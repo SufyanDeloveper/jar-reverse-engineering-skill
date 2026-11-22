@@ -44,6 +44,26 @@ class JavapEvidenceTests(unittest.TestCase):
             self.assertTrue(dump.exists())
             self.assertIn("add", dump.read_text(encoding="utf-8", errors="replace"))
 
+    def test_missing_classpath_returns_error(self):
+        with tempfile.TemporaryDirectory() as td:
+            r = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--classpath",
+                    str(Path(td) / "missing.jar"),
+                    "--class",
+                    "x.Y",
+                    "--out",
+                    str(Path(td) / "out"),
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(r.returncode, 0)
+            self.assertIn("Classpath not found", r.stdout + r.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

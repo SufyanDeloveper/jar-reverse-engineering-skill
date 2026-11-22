@@ -13,6 +13,7 @@ REQUIRED = [
     "README.md",
     "LICENSE",
     "CONTRIBUTING.md",
+    ".gitignore",
     "references/evidence.md",
     "references/fidelity.md",
     "references/obfuscation-patterns.md",
@@ -49,9 +50,19 @@ def main() -> int:
     for ref in ["references/evidence.md", "references/fidelity.md"]:
         if ref not in text:
             errors.append(f"SKILL.md should reference {ref}")
-    for script in ["scripts/artifact_profile.py"]:
+    for script in [
+        "scripts/artifact_profile.py",
+        "scripts/decompiler_compare.py",
+        "scripts/javap_evidence.py",
+    ]:
         if script.replace("/", "\\") not in text and script not in text:
             errors.append(f"SKILL.md should mention {script}")
+    gitignore = ROOT / ".gitignore"
+    if gitignore.exists():
+        gi = gitignore.read_text(encoding="utf-8", errors="replace")
+        for pat in ["__pycache__/", "tools/jvmtool/out/"]:
+            if pat not in gi:
+                errors.append(f".gitignore should contain '{pat}'")
     if errors:
         for e in errors:
             print("ERROR:", e)

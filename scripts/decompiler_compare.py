@@ -17,10 +17,46 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
+import re
 import subprocess
 import time
 from pathlib import Path
+
+SAFE_NAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
+
+
+def safe_name(raw: str) -> str:
+    name = SAFE_NAME_RE.sub("_", str(raw).strip()).strip("._")
+    if not name or name in {".", ".."}:
+        raise ValueError(f"Unsafe or empty decompiler name: {raw!r}")
+    return name[:80]
+
+
+def load_config(path: Path) -> list[dict]:
+    cfg = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(cfg, dict):
+        raise ValueError("Config must be a JSON object")
+    decompilers = cfg.get("decompilers")
+    if not isinstance(decompilers, list) or not decompilers:
+        raise ValueError("Config must contain non-empty 'decompilers' list")
+    normalized = []
+    seen = set()
+    for i, d in enumerate(decompilers):
+        if not isinstance(d, dict):
+            raise ValueError(f"decompilers[{i}] must be an object")
+        name = safe_name(d.get("name", ""))
+        if name in seen:
+            raise ValueError(f"Duplicate decompiler name after sanitization: {name}")
+        seen.add(name)
+        cmd = d.get("cmd")
+        if (
+            not isinstance(cmd, list)
+            or not cmd
+            or not all(isinstance(x, (str, int, float)) for x in cmd)
+        ):
+            raise ValueError(f"decompilers[{i}].cmd must be a non-empty list")
+        normalized.append({"name": name, "cmd": [str(x) for x in cmd]})
+    return normalized
 
 
 def run_one(name: str, cmd: list[str], out_dir: Path, timeout: int) -> dict:
@@ -45,6 +81,27 @@ def run_one(name: str, cmd: list[str], out_dir: Path, timeout: int) -> dict:
             "log": str(log),
             "output_dir": str(out_dir),
         }
+    except subprocess.TimeoutExpired as e:
+        duration = time.time() - start
+        stdout = e.stdout or ""
+        stderr = e.stderr or ""
+        if isinstance(stdout, bytes):
+            stdout = stdout.decode("utf-8", errors="replace")
+        if isinstance(stderr, bytes):
+            stderr = stderr.decode("utf-8", errors="replace")
+        log.write_text(
+            stdout + "\n---STDERR---\n" + stderr + f"\n---TIMEOUT---\n{timeout}s\n",
+            encoding="utf-8",
+            errors="replace",
+        )
+        return {
+            "name": name,
+            "cmd": cmd,
+            "error": f"timeout after {timeout}s",
+            "duration_sec": round(duration, 2),
+            "log": str(log),
+            "output_dir": str(out_dir),
+        }
     except Exception as e:
         return {"name": name, "cmd": cmd, "error": str(e), "output_dir": str(out_dir)}
 
@@ -64,13 +121,21 @@ def main() -> int:
     args = ap.parse_args()
 
     jar = Path(args.jar).resolve()
+    if not jar.exists():
+        raise SystemExit(f"Input jar not found: {jar}")
+    if args.timeout <= 0:
+        raise SystemExit("--timeout must be > 0")
+
     out = Path(args.out).resolve()
     out.mkdir(parents=True, exist_ok=True)
-    cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
+    decompilers = load_config(Path(args.config))
     results = []
-    for d in cfg.get("decompilers", []):
+    for d in decompilers:
         name = d["name"]
-        cmd = [str(x).format(jar=str(jar), out=str(out / name)) for x in d["cmd"]]
+        cmd = [
+            x.replace("{jar}", str(jar)).replace("{out}", str(out / name))
+            for x in d["cmd"]
+        ]
         print(f"Running {name}...")
         results.append(run_one(name, cmd, out / name, args.timeout))
 

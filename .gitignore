@@ -1,20 +1,15 @@
-# OS / editor
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# JvmTool build outputs
+tools/jvmtool/out/
+tools/jvmtool/jvmtool.jar
+
+# OS/editor
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 *.swp
-*.swo
-
-# Recovery outputs (generated during analysis)
-recovery/
-*.log
-
-# JVM tool build output
-tools/jvmtool/out/
-tools/jvmtool/jvmtool.jar
-
-
-# Python
-__pycache__/
-*.pyc
