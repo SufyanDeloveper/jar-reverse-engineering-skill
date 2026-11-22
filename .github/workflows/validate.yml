@@ -16,8 +16,17 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+
       - name: Validate skill structure
         run: python scripts/validate_skill.py
+
+      - name: Build JVM tool
+        run: python tools/jvmtool/build.py
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -p "test_*.py" -v

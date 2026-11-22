@@ -49,8 +49,13 @@ jar-reverse-engineering/
 ├── scripts/
 │   ├── artifact_profile.py       # Static, non-executing JVM artifact profiler
 │   └── validate_skill.py         # Repository/skill structure validation
+├── tools/
+│   └── jvmtool/                  # JDK 24+ Class-File API analysis tool (source + build script)
+│       ├── src/JvmTool.java
+│       └── build.py
 └── tests/
     ├── test_artifact_profile.py  # Profiler tests on synthetic artifacts
+    ├── test_jvmtool.py           # JvmTool compile/run smoke tests
     └── test_validate_skill.py    # Validation script test
 ```
 

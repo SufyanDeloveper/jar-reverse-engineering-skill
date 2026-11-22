@@ -193,12 +193,13 @@ Inline marks — terse, with basis:
 // [PLACEHOLDER | non-original] buildable scaffold requested; behavior differs from original
 ```
 
-## Companion scripts
+## Companion tools/scripts
 
-Scripts are optional helpers, not a replacement for evidence judgment:
+Helpers are optional and do not replace evidence judgment. They must not execute artifact code.
 
-- `scripts/artifact_profile.py` — static stdlib-only artifact profiler; emits JSON/Markdown with hashes, structure, class metadata, and heuristic obfuscation indicators. It does not execute artifact code.
+- `scripts/artifact_profile.py` — static stdlib-only artifact profiler; emits JSON/Markdown with hashes, structure, class metadata, and heuristic obfuscation indicators.
 - `scripts/validate_skill.py` — basic repository/skill structure validation.
+- `tools/jvmtool/` — JDK 24+ Class-File API tool (source included, no external deps). Commands: `profile`, `scan`, `strings`. Build with `python tools/jvmtool/build.py`; run with `java -cp tools/jvmtool/out JvmTool ...`. Outputs are evidence/indicators, not proof of original source.
 
 ## Deliverables
 
