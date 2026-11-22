@@ -81,6 +81,9 @@ Record each resolution in the evidence ledger:
   manifests, uniform renaming, code-style boundaries.
 - **Fat/executable archives:** separate loader scaffolding from payload; recover the
   payload, restore the loader as a dependency or a documented packaging step.
+  For framework layouts (e.g., Spring Boot `BOOT-INF/classes`, `BOOT-INF/lib`),
+  treat framework/runtime loader classes as packaging infrastructure unless the
+  user explicitly targets them.
 - **Multi-release archives** (`META-INF/versions/<n>/`): recover each version
   variant, diff them, report the differences — never silently keep only the base.
 - **Service descriptors** (`META-INF/services/`): original configuration evidence;

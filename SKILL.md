@@ -61,9 +61,10 @@ demands it, and record why. Depth is set by the goal, not by maximalism.
 Inspect before choosing any tool. Produce an **artifact profile**:
 
 - Container shape: plain archive; executable/fat archive (loader scaffolding +
-  nested payload); WAR/EAR layouts and deployment descriptors; multi-release
-  variants; signed entries; module descriptors; nested archives; native
-  libraries. Apply triage recursively to nested archives.
+  nested payload, including framework layouts such as Spring Boot `BOOT-INF/`);
+  WAR/EAR layouts and deployment descriptors; multi-release variants; signed
+  entries; module descriptors; nested archives; native libraries. Apply triage
+  recursively to nested archives.
 - Class-file versions and preview flags → candidate language targets. Verify the
   version-to-release mapping against a current reference; do not trust memory.
 - Language mix: Java, Kotlin, Scala, Groovy, others; runtime-generated code
@@ -142,7 +143,9 @@ protection taxonomy: `references/evidence.md`.
   compiler variance. Identical-after-normalization is strong evidence; a
   difference is not automatically an error, and compilation success is never
   equivalence. Protocol and variance catalog: `references/fidelity.md`.
-- Behavioral comparison only under Hard rule 2.
+- Behavioral comparison only under Hard rule 2. If safe, evidence-derived tests
+  or harnesses exist, they may support validation, but they do not replace
+  bytecode/semantic verification and must not require executing untrusted artifact code.
 - Track verification coverage explicitly: which members were verified, how, and
   with what result. Never blanket-promote a decompiler dump to RECOVERED.
 
@@ -203,7 +206,7 @@ recovery/
 - Artifact profile: nesting, native components, languages, protections.
 - What was recovered, and how each part was verified (with coverage counts).
 - What was reconstructed or inferred, with confidence and evidence.
-- What remains unrecovered, and why.
+- What remains unrecovered, and why — including lost original names, stripped debug data, encrypted/runtime-generated regions, or missing metadata.
 - Tools and versions actually used; commands actually run.
 - Validation performed and its actual results — including failures.
 - Dependency provenance and verification.

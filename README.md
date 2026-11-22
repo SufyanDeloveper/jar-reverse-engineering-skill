@@ -22,22 +22,29 @@ This skill takes the opposite approach:
 - First-party vs bundled dependency separation
 - Java and other JVM languages (Kotlin, Scala, Groovy, mixed artifacts)
 - Obfuscation and protection boundaries
-- Multi-release JARs, nested archives, service descriptors, manifests
+- Fat/executable archives and framework layouts (including Spring Boot `BOOT-INF/`), multi-release JARs, nested archives, service descriptors, manifests
 - Name provenance and deobfuscation confidence
 - Compiler artifact recognition and idiom restoration
-- Verification protocol with normalization and coverage ledger
-- Recovery reporting with traceable evidence
+- Verification protocol with normalization, coverage ledger, and optional safe evidence-derived tests
+- Recovery reporting with traceable evidence and explicit unrecovered/lost information
 
 ## Repository structure
 
 ```text
 jar-reverse-engineering/
-├── SKILL.md              # Core skill: rules, workflow, statuses, deliverables
-├── README.md             # Repository overview and usage
-├── LICENSE               # MIT license
+├── SKILL.md                  # Core skill: rules, workflow, statuses, deliverables
+├── README.md                 # Repository overview and usage
+├── CONTRIBUTING.md           # Contribution guidelines
+├── LICENSE                   # MIT license
+├── .gitignore
+├── .github/
+│   └── workflows/
+│       └── validate.yml      # Basic structure/frontmatter checks
+├── examples/
+│   └── RECOVERY.example.md   # Sanitized example recovery report
 └── references/
-    ├── evidence.md       # Class-file evidence, name provenance, protections, triage
-    └── fidelity.md       # Desugaring catalog, JVM language notes, verification protocol
+    ├── evidence.md           # Class-file evidence, name provenance, protections, triage
+    └── fidelity.md           # Desugaring catalog, JVM language notes, verification protocol
 ```
 
 `SKILL.md` is self-sufficient. The `references/` files provide deeper playbooks that an agent can load on demand.
@@ -107,7 +114,7 @@ Contributions are welcome, especially:
 - Better examples of recovery reports and coverage ledgers
 - Clarifications for non-Java JVM languages and obfuscation patterns
 
-When contributing, keep the core principle: **do not trade honesty for completeness**.
+See [CONTRIBUTING.md](./CONTRIBUTING.md). Keep the core principle: **do not trade honesty for completeness**.
 
 ## License
 
