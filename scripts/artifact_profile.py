@@ -150,8 +150,9 @@ def parse_class(data: bytes, name: str) -> dict:
                 10,
                 11,
                 12,
+                17,
                 18,
-            ):  # Field/Method/Interface/NameAndType/InvokeDynamic
+            ):  # Field/Method/Interface/NameAndType/Dynamic/InvokeDynamic
                 a, off = read_u2(data, off)
                 b, off = read_u2(data, off)
                 cp[i] = (tag, (a, b))
@@ -159,6 +160,9 @@ def parse_class(data: bytes, name: str) -> dict:
                 _, off = read_u1(data, off)
                 _, off = read_u2(data, off)
                 cp[i] = (tag, None)
+            elif tag in (19, 20):  # Module / Package
+                idx, off = read_u2(data, off)
+                cp[i] = (tag, idx)
             else:
                 # Unknown tag; stop parsing safely.
                 info["parse_warning"] = f"unknown cp tag {tag} at index {i}"
@@ -255,6 +259,8 @@ def parse_class(data: bytes, name: str) -> dict:
     except Exception as e:
         info["parse_warning"] = str(e)
     return info
+
+
 def is_probably_text(name: str) -> bool:
     p = Path(name)
     return (
@@ -489,6 +495,8 @@ def summarize_classes(class_infos):
         "with_annotations": annotations,
         "top_packages": packages.most_common(20),
     }
+
+
 def render_markdown(profile: dict) -> str:
     a = profile["artifact"]
     c = profile.get("container", {})

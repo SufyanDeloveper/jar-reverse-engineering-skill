@@ -36,7 +36,7 @@ public class JvmTool {
         System.out.println("  profile <artifact.jar|class> [--json out.json]");
         System.out.println("  scan <artifact.jar|class> [--json out.json]");
         System.out.println("  strings <artifact.jar|class> [--out strings.txt]");
-        System.out.println("  apply-map <artifact.jar> <map.tsv> --out mapped.jar");
+        System.out.println("  apply-map <artifact.jar> <map.tsv> --out mapped.jar  (planned; not implemented)");
         System.out.println("\nMap format (TSV): oldInternalName\tnewInternalName");
     }
 
@@ -366,7 +366,7 @@ public class JvmTool {
     }
 
     static void cmdApplyMap(String[] args) throws Exception {
-        System.err.println("apply-map is not implemented in this minimal build. Use evidence-based rename mapping tools and verify results.");
+        System.err.println("apply-map is not implemented yet. For renaming, use verified external mapping workflows and record provenance in RECOVERY.md.");
         System.exit(2);
     }
 }

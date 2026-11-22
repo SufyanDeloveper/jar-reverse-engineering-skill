@@ -104,5 +104,49 @@ class ArtifactProfileTests(unittest.TestCase):
             self.assertFalse(profile["container"]["is_zip"])
 
 
+    def test_parse_class_handles_modern_cp_tags(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("artifact_profile", SCRIPT)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        def u1(x): return bytes([x & 0xFF])
+        def u2(x): return x.to_bytes(2, "big")
+        def u4(x): return x.to_bytes(4, "big")
+        def utf8(s):
+            b = s.encode("utf-8")
+            return u1(1) + u2(len(b)) + b
+        def cls(idx): return u1(7) + u2(idx)
+        def module(idx): return u1(19) + u2(idx)
+        def package(idx): return u1(20) + u2(idx)
+        def condyn(bsm, nat): return u1(17) + u2(bsm) + u2(nat)
+        def name_and_type(n, t): return u1(12) + u2(n) + u2(t)
+
+        cp = [None]
+        cp.append(utf8("Hello"))                 # 1
+        cp.append(cls(1))                         # 2
+        cp.append(utf8("java/lang/Object"))       # 3
+        cp.append(cls(3))                         # 4
+        cp.append(utf8("mod"))                    # 5
+        cp.append(module(5))                      # 6
+        cp.append(utf8("pkg"))                    # 7
+        cp.append(package(7))                     # 8
+        cp.append(utf8("dynName"))                # 9
+        cp.append(utf8("I"))                      # 10
+        cp.append(name_and_type(9, 10))           # 11
+        cp.append(condyn(0, 11))                  # 12
+        cp.append(utf8("SourceFile"))             # 13
+        cp.append(utf8("Hello.java"))             # 14
+        body = b"".join(cp[1:])
+        out = b"\xca\xfe\xba\xbe" + u2(0) + u2(65) + u2(len(cp)) + body
+        out += u2(0x0021) + u2(2) + u2(4) + u2(0) + u2(0) + u2(0)
+        out += u2(1) + u2(13) + u4(2) + u2(14)
+
+        info = mod.parse_class(out, "Hello.class")
+        self.assertTrue(info["valid"])
+        self.assertEqual(info["major"], 65)
+        self.assertNotIn("parse_warning", info)
+
+
 if __name__ == "__main__":
     unittest.main()
