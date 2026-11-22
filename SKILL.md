@@ -103,10 +103,12 @@ strategies: `references/obfuscation-patterns.md`. You may use
 
 - Keep raw class-file disassembly as ground truth, even when a tool "succeeds".
 - Tool-assigned names and tool "improvements" are opinions, not evidence.
-- On ambiguity or disagreement, consult a differently implemented tool and
-  inspect the class file directly: constant pool, descriptors, flags, attributes,
-  exception tables, control flow, invocation targets, call sites, reflection
-  strings, resources.
+- On ambiguity, decompiler failure, or disagreement, consult a differently
+  implemented tool and inspect the class file directly: constant pool,
+  descriptors, flags, attributes, exception tables, control flow, invocation
+  targets, call sites, reflection strings, resources. Use `javap -v -p -c -s`
+  (or `scripts/javap_evidence.py`) as ground-truth fallback. Record failed
+  decompilation methods as evidence, not silence.
 - Evidence hierarchy — higher tiers win:
   1. Original bytecode and class-file structure.
   2. Authenticated metadata: debug attributes, signatures, verified mappings,
@@ -143,6 +145,8 @@ strategies: `references/obfuscation-patterns.md`. You may use
 - Compile when appropriate, at a target derived from the class-file version.
   Treat every error as evidence: recovery defect, missing dependency, or
   language-level mismatch — classify before fixing, and fix only from evidence.
+  Do not "fix" compilation by inventing behavior; if unresolved, mark affected
+  units UNRECOVERED/RECONSTRUCTED with cause.
 - Where it raises confidence, recompile and compare with the original under
   normalization: ignore debug attributes, constant-pool layout, and documented
   compiler variance. Identical-after-normalization is strong evidence; a
@@ -201,6 +205,8 @@ Helpers are optional and do not replace evidence judgment. They must not execute
 
 - `scripts/artifact_profile.py` — static stdlib-only artifact profiler; emits JSON/Markdown with hashes, structure, class metadata, and heuristic obfuscation indicators.
 - `scripts/extract_safe.py` — safe static extraction with zip-slip protection, inventory, and per-file SHA-256.
+- `scripts/decompiler_compare.py` — runs user-configured local decompiler commands and writes presence/exit/log comparison reports. No decompilers bundled.
+- `scripts/javap_evidence.py` — collects `javap -private -verbose -c -s` dumps for specific classes as ground-truth fallback.
 - `scripts/validate_skill.py` — basic repository/skill structure validation.
 - `tools/jvmtool/` — JDK 24+ Class-File API tool (source included, no external deps). Commands: `profile`, `scan`, `strings`. Build with `python tools/jvmtool/build.py`; run with `java -cp tools/jvmtool/out JvmTool ...`. Outputs are evidence/indicators, not proof of original source.
 

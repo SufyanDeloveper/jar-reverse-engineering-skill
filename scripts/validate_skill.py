@@ -20,6 +20,8 @@ REQUIRED = [
     "examples/RECOVERY.example.md",
     "scripts/artifact_profile.py",
     "scripts/extract_safe.py",
+    "scripts/decompiler_compare.py",
+    "scripts/javap_evidence.py",
     "scripts/validate_skill.py",
     "tools/jvmtool/src/JvmTool.java",
     "tools/jvmtool/build.py",

@@ -50,15 +50,19 @@ jar-reverse-engineering/
 ├── scripts/
 │   ├── artifact_profile.py       # Static, non-executing JVM artifact profiler
 │   ├── extract_safe.py           # Safe static extraction with inventory/SHA-256
+│   ├── decompiler_compare.py     # Compare user-configured decompiler outputs
+│   ├── javap_evidence.py         # javap ground-truth dumps for specific classes
 │   └── validate_skill.py         # Repository/skill structure validation
 ├── tools/
 │   └── jvmtool/                  # JDK 24+ Class-File API analysis tool (source + build script)
 │       ├── src/JvmTool.java
 │       └── build.py
 └── tests/
-    ├── test_artifact_profile.py  # Profiler tests on synthetic artifacts
-    ├── test_jvmtool.py           # JvmTool compile/run smoke tests
-    └── test_validate_skill.py    # Validation script test
+    ├── test_artifact_profile.py   # Profiler tests on synthetic artifacts
+    ├── test_decompiler_compare.py # Decompiler compare harness test
+    ├── test_javap_evidence.py     # javap evidence script test
+    ├── test_jvmtool.py            # JvmTool compile/run smoke tests
+    └── test_validate_skill.py     # Validation script test
 ```
 
 `SKILL.md` is self-sufficient. The `references/` files provide deeper playbooks that an agent can load on demand.
