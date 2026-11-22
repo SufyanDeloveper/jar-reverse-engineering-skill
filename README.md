@@ -21,30 +21,37 @@ This skill takes the opposite approach:
 - JAR / WAR / EAR / CLASS artifact triage
 - First-party vs bundled dependency separation
 - Java and other JVM languages (Kotlin, Scala, Groovy, mixed artifacts)
-- Obfuscation and protection boundaries
+- Obfuscation and protection boundaries, with heuristic detection guidance
 - Fat/executable archives and framework layouts (including Spring Boot `BOOT-INF/`), multi-release JARs, nested archives, service descriptors, manifests
 - Name provenance and deobfuscation confidence
 - Compiler artifact recognition and idiom restoration
 - Verification protocol with normalization, coverage ledger, and optional safe evidence-derived tests
 - Recovery reporting with traceable evidence and explicit unrecovered/lost information
+- Optional stdlib helper scripts for static profiling and repository validation
 
 ## Repository structure
 
 ```text
 jar-reverse-engineering/
-├── SKILL.md                  # Core skill: rules, workflow, statuses, deliverables
-├── README.md                 # Repository overview and usage
-├── CONTRIBUTING.md           # Contribution guidelines
-├── LICENSE                   # MIT license
+├── SKILL.md                      # Core skill: rules, workflow, statuses, deliverables
+├── README.md                     # Repository overview and usage
+├── CONTRIBUTING.md               # Contribution guidelines
+├── LICENSE                       # MIT license
 ├── .gitignore
-├── .github/
-│   └── workflows/
-│       └── validate.yml      # Basic structure/frontmatter checks
+├── .github/workflows/validate.yml # Structure validation + unit tests
 ├── examples/
-│   └── RECOVERY.example.md   # Sanitized example recovery report
-└── references/
-    ├── evidence.md           # Class-file evidence, name provenance, protections, triage
-    └── fidelity.md           # Desugaring catalog, JVM language notes, verification protocol
+│   └── RECOVERY.example.md       # Sanitized example recovery report
+├── references/
+│   ├── evidence.md               # Class-file evidence, name provenance, protections, triage
+│   ├── fidelity.md               # Desugaring catalog, JVM language notes, verification protocol
+│   ├── obfuscation-patterns.md   # Obfuscation signals and evidence-safe recovery strategies
+│   └── tooling-evaluation.md     # Capability categories and comparison criteria
+├── scripts/
+│   ├── artifact_profile.py       # Static, non-executing JVM artifact profiler
+│   └── validate_skill.py         # Repository/skill structure validation
+└── tests/
+    ├── test_artifact_profile.py  # Profiler tests on synthetic artifacts
+    └── test_validate_skill.py    # Validation script test
 ```
 
 `SKILL.md` is self-sufficient. The `references/` files provide deeper playbooks that an agent can load on demand.

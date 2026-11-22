@@ -81,7 +81,9 @@ Inspect before choosing any tool. Produce an **artifact profile**:
 
 Output: the profile plus a recovery plan — what gets full recovery, what becomes
 a dependency, what is a declared boundary. Attribute-level evidence and the
-protection taxonomy: `references/evidence.md`.
+protection taxonomy: `references/evidence.md`. Obfuscation signals and recovery
+strategies: `references/obfuscation-patterns.md`. You may use
+`scripts/artifact_profile.py` for a static, non-executing evidence profile.
 
 ### 2. Select the methodology
 
@@ -89,6 +91,7 @@ protection taxonomy: `references/evidence.md`.
   and techniques; verify documentation, maintenance status, version
   compatibility, and known limitations before relying on them. Prefer at least
   two independently implemented recovery engines so cross-checks are meaningful.
+  Use `references/tooling-evaluation.md` for capability categories and comparison criteria.
 - Without connectivity: say so plainly and proceed with the best verified local
   capabilities. Never simulate research.
 - Select per artifact, not per habit. Re-evaluate the moment tool output
@@ -189,6 +192,13 @@ Inline marks — terse, with basis:
 // [UNRECOVERED] body loaded encrypted at runtime; static evidence insufficient
 // [PLACEHOLDER | non-original] buildable scaffold requested; behavior differs from original
 ```
+
+## Companion scripts
+
+Scripts are optional helpers, not a replacement for evidence judgment:
+
+- `scripts/artifact_profile.py` — static stdlib-only artifact profiler; emits JSON/Markdown with hashes, structure, class metadata, and heuristic obfuscation indicators. It does not execute artifact code.
+- `scripts/validate_skill.py` — basic repository/skill structure validation.
 
 ## Deliverables
 

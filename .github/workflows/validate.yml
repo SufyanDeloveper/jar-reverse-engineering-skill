@@ -11,47 +11,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate repository structure and SKILL frontmatter
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import re, sys
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
-          root = Path('.')
-          required = [
-              'SKILL.md',
-              'README.md',
-              'LICENSE',
-              'references/evidence.md',
-              'references/fidelity.md',
-          ]
-          missing = [p for p in required if not (root / p).exists()]
-          if missing:
-              print('Missing required files:', missing)
-              sys.exit(1)
+      - name: Validate skill structure
+        run: python scripts/validate_skill.py
 
-          text = (root / 'SKILL.md').read_text(encoding='utf-8')
-          m = re.match(r'^---\n(.*?)\n---\n', text, re.S)
-          if not m:
-              print('SKILL.md missing YAML frontmatter')
-              sys.exit(1)
-          fm = m.group(1)
-          name = re.search(r'^name:\s*(.+)$', fm, re.M)
-          desc = re.search(r'^description:\s*(.+)$', fm, re.M)
-          if not name or not desc:
-              print('SKILL.md frontmatter must include name and description')
-              sys.exit(1)
-          if name.group(1).strip() != 'jar-reverse-engineering':
-              print('Unexpected skill name:', name.group(1))
-              sys.exit(1)
-          if len(desc.group(1).strip()) > 1024:
-              print('Description too long')
-              sys.exit(1)
-
-          for ref in ['references/evidence.md', 'references/fidelity.md']:
-              if ref not in text:
-                  print('SKILL.md should reference', ref)
-                  sys.exit(1)
-
-          print('Validation passed')
-          PY
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
