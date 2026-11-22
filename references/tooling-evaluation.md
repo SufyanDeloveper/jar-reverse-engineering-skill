@@ -27,6 +27,17 @@ Evaluate candidates against the artifact profile:
 | Diff/comparison tools | Compare decompiler outputs or bytecode | Cross-checks, verification | Normalize noise before judging. |
 | Build/dependency analyzers | Recover coordinates and project shape | Reconstructing buildable project | Verify checksums/metadata; don't invent versions. |
 
+## Baseline fallback (always available in many JDK installs)
+
+When specialized tools are unavailable, use JDK built-ins as baseline evidence sources and record their output:
+
+- `jar tf <artifact>` — inventory entries/nesting.
+- `javap -v -p -c -s <class>` — disassembly, constant pool, descriptors, flags, attributes.
+- `jarsigner -verify -verbose <artifact>` — signature verification status.
+- `keytool` / checksums — metadata/signature context as applicable.
+
+These do not replace specialized decompilers/analyzers, but they provide trustworthy ground-truth evidence.
+
 ## Example ecosystem (verify current status before use)
 
 These are examples, not endorsements or requirements:

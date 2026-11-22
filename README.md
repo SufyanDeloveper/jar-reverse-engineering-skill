@@ -40,7 +40,8 @@ jar-reverse-engineering/
 ├── .gitignore
 ├── .github/workflows/validate.yml # Structure validation + unit tests
 ├── examples/
-│   └── RECOVERY.example.md       # Sanitized example recovery report
+│   ├── RECOVERY.example.md       # Sanitized example recovery report
+│   └── real-world/               # Static analysis outputs from public artifacts (no binaries)
 ├── references/
 │   ├── evidence.md               # Class-file evidence, name provenance, protections, triage
 │   ├── fidelity.md               # Desugaring catalog, JVM language notes, verification protocol
@@ -48,6 +49,7 @@ jar-reverse-engineering/
 │   └── tooling-evaluation.md     # Capability categories and comparison criteria
 ├── scripts/
 │   ├── artifact_profile.py       # Static, non-executing JVM artifact profiler
+│   ├── extract_safe.py           # Safe static extraction with inventory/SHA-256
 │   └── validate_skill.py         # Repository/skill structure validation
 ├── tools/
 │   └── jvmtool/                  # JDK 24+ Class-File API analysis tool (source + build script)
@@ -65,11 +67,17 @@ jar-reverse-engineering/
 
 ### Agent Skills-compatible runtimes
 
-Copy the `jar-reverse-engineering/` folder into your agent's skills directory. The folder name matches the `name` field in `SKILL.md` frontmatter.
+Clone this repository and place it in your skills directory as a folder named `jar-reverse-engineering` (the folder name must match the `name` field in `SKILL.md` frontmatter):
+
+```bash
+git clone https://github.com/SufyanDeloveper/jar-reverse-engineering-skill.git jar-reverse-engineering
+```
+
+If you already cloned it as `jar-reverse-engineering-skill`, rename/copy the folder to `jar-reverse-engineering` before installing.
 
 ### Manual / prompt-based use
 
-If your runtime does not support skill folders, attach `SKILL.md` as the operating instruction for the task. Include `references/evidence.md` and `references/fidelity.md` when the agent can load supporting files.
+If your runtime does not support skill folders, attach `SKILL.md` as the operating instruction for the task. Include files from `references/` when the agent can load supporting files.
 
 ## How to use
 

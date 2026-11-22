@@ -1,0 +1,178 @@
+{
+  "schema": "jar-reverse-engineering.artifact-profile/v1",
+  "generated_at": "2026-11-22T21:27:54.742132+00:00",
+  "artifact": {
+    "path": "C:\\Users\\nafee\\AppData\\Local\\Temp\\jre-skill-demo\\commons-lang3-3.17.0.jar",
+    "size_bytes": 673587,
+    "sha256": "6ee731df5c8e5a2976a1ca023b6bb320ea8d3539fbe64c8a1d5cb765127c33b4"
+  },
+  "container": {
+    "type": "zip",
+    "entries": 426,
+    "class_files": 396,
+    "nested_archives": [],
+    "nested_archive_count": 0,
+    "manifest": {
+      "Manifest-Version": "1.0",
+      "Created-By": "Apache Maven Bundle Plugin 5.1.9",
+      "Build-Jdk-Spec": "17",
+      "Specification-Title": "Apache Commons Lang",
+      "Specification-Version": "3.17",
+      "Specification-Vendor": "The Apache Software Foundation",
+      "Implementation-Title": "Apache Commons Lang",
+      "Implementation-Version": "3.17.0",
+      "Implementation-Vendor": "The Apache Software Foundation",
+      "Automatic-Module-Name": "org.apache.commons.lang3",
+      "Bundle-Description": "Apache Commons Lang, a package of Java utility class",
+      "s": "8, 11, 17 and 21 currently.  See https://github.com/apache/commons-l",
+      "Bundle-DocURL": "https://commons.apache.org/proper/commons-lang/",
+      "Bundle-License": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "Bundle-ManifestVersion": "2",
+      "Bundle-Name": "Apache Commons Lang",
+      "Bundle-SymbolicName": "org.apache.commons.lang3",
+      "Bundle-Vendor": "The Apache Software Foundation",
+      "Bundle-Version": "3.17.0",
+      "Export-Package": "org.apache.commons.lang3;version=\"3.17.0\",org.apache.com",
+      "Include-Resource": "META-INF/LICENSE.txt=LICENSE.txt,META-INF/NOTICE.txt=N",
+      "Require-Capability": "osgi.ee;filter:=\"(&(osgi.ee=JavaSE)(version=1.8))\"",
+      "Tool": "Bnd-6.4.1.202306080939",
+      "Multi-Release": "true"
+    },
+    "signatures": [],
+    "signature_count": 0,
+    "service_descriptors": [],
+    "maven_poms": [
+      "META-INF/maven/org.apache.commons/commons-lang3/pom.xml"
+    ],
+    "maven_props": [
+      "META-INF/maven/org.apache.commons/commons-lang3/pom.properties"
+    ],
+    "multi_release": true,
+    "module_info": [
+      "META-INF/versions/9/module-info.class"
+    ],
+    "native_libraries": []
+  },
+  "classes": {
+    "parsed": 396,
+    "valid": 396,
+    "major_versions": {
+      "52": 395,
+      "53": 1
+    },
+    "with_debug_info_attrs": 318,
+    "with_source_file": 395,
+    "with_bootstrap_methods": 93,
+    "with_annotations": 149,
+    "top_packages": [
+      [
+        "org.apache.commons.lang3",
+        76
+      ],
+      [
+        "org.apache.commons.lang3.time",
+        63
+      ],
+      [
+        "org.apache.commons.lang3.function",
+        55
+      ],
+      [
+        "org.apache.commons.lang3.concurrent",
+        52
+      ],
+      [
+        "org.apache.commons.lang3.builder",
+        36
+      ],
+      [
+        "org.apache.commons.lang3.text",
+        22
+      ],
+      [
+        "org.apache.commons.lang3.reflect",
+        15
+      ],
+      [
+        "org.apache.commons.lang3.text.translate",
+        14
+      ],
+      [
+        "org.apache.commons.lang3.exception",
+        11
+      ],
+      [
+        "org.apache.commons.lang3.mutable",
+        10
+      ],
+      [
+        "org.apache.commons.lang3.stream",
+        9
+      ],
+      [
+        "org.apache.commons.lang3.tuple",
+        7
+      ],
+      [
+        "org.apache.commons.lang3.compare",
+        5
+      ],
+      [
+        "org.apache.commons.lang3.concurrent.locks",
+        5
+      ],
+      [
+        "org.apache.commons.lang3.event",
+        5
+      ],
+      [
+        "org.apache.commons.lang3.arch",
+        4
+      ],
+      [
+        "org.apache.commons.lang3.math",
+        4
+      ],
+      [
+        "org.apache.commons.lang3.util",
+        2
+      ],
+      [
+        "META-INF.versions.9",
+        1
+      ]
+    ]
+  },
+  "evidence": {
+    "service_descriptor_count": 0,
+    "maven_metadata_count": 2,
+    "has_debug_info": true,
+    "has_source_file_attr": true,
+    "has_bootstrap_methods": true
+  },
+  "obfuscation_indicators": [
+    {
+      "id": "reflection-heavy",
+      "severity": "medium",
+      "evidence": {
+        "java/lang/invoke/MethodHandles$Lookup": 189,
+        "java/lang/reflect/Method.invoke": 5,
+        "java/net/URLClassLoader": 3,
+        "java/lang/Class.forName": 3,
+        "java/lang/reflect/Field.setAccessible": 1
+      },
+      "note": "Reflection can be normal; combined with short names/high-entropy strings it may indicate obfuscation."
+    },
+    {
+      "id": "dynamic-loading-apis",
+      "severity": "medium",
+      "evidence": {
+        "java/lang/invoke/MethodHandles": 283,
+        "java/lang/ClassLoader": 20,
+        "java/net/URLClassLoader": 3
+      },
+      "note": "Dynamic loading may indicate plugins, frameworks, or runtime packing; inspect statically before any execution."
+    }
+  ],
+  "limitations": []
+}

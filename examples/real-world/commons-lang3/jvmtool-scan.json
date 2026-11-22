@@ -1,0 +1,121 @@
+{
+  "schema": "jvmtool.scan/v1",
+  "artifact": {
+    "path": "C:\\Users\\nafee\\AppData\\Local\\Temp\\jre-skill-demo\\commons-lang3-3.17.0.jar",
+    "sha256": "6ee731df5c8e5a2976a1ca023b6bb320ea8d3539fbe64c8a1d5cb765127c33b4"
+  },
+  "summary": {
+    "cryptoRefs": 0,
+    "classes": 396,
+    "findings": 15,
+    "reflectionRefs": 221,
+    "dynamicLoadRefs": 4
+  },
+  "findings": [
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/AnnotationUtils.class",
+      "evidence": "reflectionRefs=10",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/ArrayUtils.class",
+      "evidence": "reflectionRefs=14",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/ClassUtils.class",
+      "evidence": "reflectionRefs=6",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/ObjectUtils.class",
+      "evidence": "reflectionRefs=6",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/builder/CompareToBuilder.class",
+      "evidence": "reflectionRefs=7",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/builder/EqualsBuilder.class",
+      "evidence": "reflectionRefs=8",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/builder/HashCodeBuilder.class",
+      "evidence": "reflectionRefs=8",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/builder/ReflectionDiffBuilder.class",
+      "evidence": "reflectionRefs=8",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/builder/ReflectionToStringBuilder.class",
+      "evidence": "reflectionRefs=12",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/reflect/FieldUtils.class",
+      "evidence": "reflectionRefs=20",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/reflect/MemberUtils.class",
+      "evidence": "reflectionRefs=9",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/reflect/MethodUtils.class",
+      "evidence": "reflectionRefs=38",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-heavy-class",
+      "severity": "medium",
+      "location": "org/apache/commons/lang3/reflect/TypeUtils.class",
+      "evidence": "reflectionRefs=50",
+      "note": "Heuristic: reflection-heavy class; inspect string construction and dynamic targets."
+    },
+    {
+      "id": "reflection-usage",
+      "severity": "medium",
+      "location": "<artifact>",
+      "evidence": "reflectionRefs=221",
+      "note": "Heuristic; verify context."
+    },
+    {
+      "id": "indy-and-switches",
+      "severity": "low",
+      "location": "<artifact>",
+      "evidence": "invokeDynamic=342, switches=29",
+      "note": "May indicate modern Java/Kotlin patterns or obfuscation; verify."
+    }
+  ]
+}

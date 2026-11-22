@@ -93,7 +93,9 @@ strategies: `references/obfuscation-patterns.md`. You may use
   two independently implemented recovery engines so cross-checks are meaningful.
   Use `references/tooling-evaluation.md` for capability categories and comparison criteria.
 - Without connectivity: say so plainly and proceed with the best verified local
-  capabilities. Never simulate research.
+  capabilities. Never simulate research. If specialized tools are unavailable,
+  fall back to JDK built-ins where present (e.g., `javap -c -private -verbose`,
+  `jar tf`, `jarsigner -verify`) and record their versions/output as evidence.
 - Select per artifact, not per habit. Re-evaluate the moment tool output
   contradicts the bytecode.
 
@@ -198,6 +200,7 @@ Inline marks — terse, with basis:
 Helpers are optional and do not replace evidence judgment. They must not execute artifact code.
 
 - `scripts/artifact_profile.py` — static stdlib-only artifact profiler; emits JSON/Markdown with hashes, structure, class metadata, and heuristic obfuscation indicators.
+- `scripts/extract_safe.py` — safe static extraction with zip-slip protection, inventory, and per-file SHA-256.
 - `scripts/validate_skill.py` — basic repository/skill structure validation.
 - `tools/jvmtool/` — JDK 24+ Class-File API tool (source included, no external deps). Commands: `profile`, `scan`, `strings`. Build with `python tools/jvmtool/build.py`; run with `java -cp tools/jvmtool/out JvmTool ...`. Outputs are evidence/indicators, not proof of original source.
 
